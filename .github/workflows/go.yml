@@ -49,3 +49,6 @@ jobs:
           -t $CONTAINER_IMAGE \
           -t $GITHUB_REPOSITORY:$GITHUB_SHA \
           -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE .
+    - name: docker push the repo 
+      run: | 
+        docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
