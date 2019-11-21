@@ -1,3 +1,14 @@
+Version 0.6.0:
+ - update on getting latest tags
+ - github actions updated
+ - update on image tagging
+ - repo name updated in push tags
+ - update on push tags
+ - remote repo push changes
+ - global config updated on workflow file
+ - update on workflow
+ - update on action file
+
 Version 0.5.0:
 
 
