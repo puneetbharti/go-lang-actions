@@ -1,5 +1,9 @@
 name: Go
-on: [push]
+
+on:
+  push:
+    branches:    
+       - master 
 
 env:
   AWS_DEFAULT_REGION: us-east-1
@@ -55,6 +59,8 @@ jobs:
             cat CHANGES >> tmpfile
             mv tmpfile CHANGES
             export IMAGE_TAG=`echo $INPUT_STRING`
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
             git add CHANGES VERSION
             git commit -m "Version bump to $INPUT_STRING"
             git tag -a -m "Tagging version $INPUT_STRING" "v$INPUT_STRING"
