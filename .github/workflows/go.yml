@@ -66,6 +66,7 @@ jobs:
             git tag -a -m "Tagging version $INPUT_STRING" "v$INPUT_STRING"
             INPUT_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
             remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/puneetbharti/go-lang-actions.git"
+            # some changes 
             git push "${remote_repo}" --tags
 
     - name: import packages 
