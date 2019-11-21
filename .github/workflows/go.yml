@@ -7,7 +7,7 @@ env:
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  CONTAINER_IMAGE: sample-golang-eks:${{ github.sha }}
+  CONTAINER_IMAGE: sample-golang-eks
 
 jobs:
 
@@ -15,6 +15,35 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+
+    - name: tag the build 
+      run: |
+            BASE_STRING=`git describe --abbrev=0 --tags`
+            BASE_STRING=${BASE_STRING/v/}
+            BASE_LIST=(`echo $BASE_STRING | tr '.' ' '`)
+            V_MAJOR=${BASE_LIST[0]}
+            V_MINOR=${BASE_LIST[1]}
+            V_PATCH=${BASE_LIST[2]}
+            echo "Current version : $BASE_STRING"
+            V_MINOR=$((V_MINOR + 1))
+            V_PATCH=0
+            SUGGESTED_VERSION="$V_MAJOR.$V_MINOR.$V_PATCH"
+            echo "Enter a version number [$SUGGESTED_VERSION] "
+            INPUT_STRING=$SUGGESTED_VERSION
+            echo "Will set new version to be $INPUT_STRING"
+            echo $INPUT_STRING > VERSION
+            echo "Version $INPUT_STRING:" > tmpfile
+            git log --pretty=format:" - %s" "v$BASE_STRING"...HEAD >> tmpfile
+            echo "" >> tmpfile
+            echo "" >> tmpfile
+            cat CHANGES >> tmpfile
+            mv tmpfile CHANGES
+            export IMAGE_TAG=`echo $INPUT_STRING`
+            git add CHANGES VERSION
+            git commit -m "Version bump to $INPUT_STRING"
+            git tag -a -m "Tagging version $INPUT_STRING" "v$INPUT_STRING"
+            git push origin --tags
+          
 
     - name: Set up Go 1.13
       uses: actions/setup-go@v1
@@ -48,7 +77,7 @@ jobs:
         docker build \
           -t $CONTAINER_IMAGE \
           -t $GITHUB_REPOSITORY:$GITHUB_SHA \
-          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE .
+          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE ":" $IMAGE_TAG  .
     - name: docker push the repo 
       run: | 
         # docker push repo to ecr 
