@@ -1,3 +1,11 @@
+Version 0.6.0:
+ - repo name updated in push tags
+ - update on push tags
+ - remote repo push changes
+ - global config updated on workflow file
+ - update on workflow
+ - update on action file
+
 Version 0.5.0:
 
 
