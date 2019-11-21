@@ -38,7 +38,7 @@ jobs:
         fi
     - name: tag the build
       run: |
-            BASE_STRING=`git describe --abbrev=0 --tags`
+            BASE_STRING=`git describe --tags `git rev-list --tags --max-count=1`
             BASE_STRING=${BASE_STRING/v/}
             BASE_LIST=(`echo $BASE_STRING | tr '.' ' '`)
             V_MAJOR=${BASE_LIST[0]}
