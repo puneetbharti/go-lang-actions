@@ -81,10 +81,11 @@ jobs:
     - name: Build and tag the image
       run: |
         # Build and tag the image
+        echo $IMAGE_TAG
         docker build \
           -t $CONTAINER_IMAGE \
           -t $GITHUB_REPOSITORY:$GITHUB_SHA \
-          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE ":" $IMAGE_TAG  .
+          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE:$IMAGE_TAG  .
     - name: docker push the repo 
       run: | 
         # docker push repo to ecr 
