@@ -83,7 +83,7 @@ jobs:
     - name: Build and tag the image
       run: |
         # Build and tag the image
-        echo $IMAGE_TAG
+        IMAGE_TAG=`cat VERSION`
         docker build \
           -t $CONTAINER_IMAGE \
           -t $GITHUB_REPOSITORY:$GITHUB_SHA \
