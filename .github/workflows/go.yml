@@ -65,9 +65,8 @@ jobs:
             git commit -m "Version bump to $INPUT_STRING"
             git tag -a -m "Tagging version $INPUT_STRING" "v$INPUT_STRING"
             INPUT_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-            remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${REPOSITORY}.git"
+            remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/puneetbharti/go-lang-actions.git"
             git push "${remote_repo}" --tags
-            #git push origin --tags
 
     - name: import packages 
       run: go get -u github.com/gorilla/mux
